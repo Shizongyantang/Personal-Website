@@ -745,27 +745,6 @@ figcaption {
   display: flex;
 }
 
-.webflow-link {
-  opacity: .5;
-  text-transform: uppercase;
-  align-items: center;
-  text-decoration: none;
-  transition: opacity .4s;
-  display: flex;
-}
-
-.webflow-link:hover {
-  opacity: 1;
-}
-
-.webflow-link:active {
-  opacity: .8;
-}
-
-.webflow-logo-tiny {
-  margin-top: -2px;
-  margin-right: 8px;
-}
 
 .footer-links {
   align-items: center;
@@ -1489,9 +1468,7 @@ figcaption {
     flex-direction: column;
   }
 
-  .webflow-link {
-    margin-bottom: 15px;
-  }
+
 
   .footer-links {
     flex-direction: column;

@@ -1,11 +1,5 @@
 
-/*!
- * Webflow: Front-end site library
- * @license MIT
- * Inline scripts may access the api using an async handler:
- *   var Webflow = Webflow || [];
- *   Webflow.push(readyFunction);
- */
+
 
 (() => {
   var __create = Object.create;
@@ -772,7 +766,7 @@
       var tram = require_tram_min() && $.tram;
       module.exports = function() {
         var _ = {};
-        _.VERSION = "1.6.0-Webflow";
+        _.VERSION = "1.6.0-regular";
         var breaker = {};
         var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
         var push = ArrayProto.push, slice = ArrayProto.slice, concat5 = ArrayProto.concat, toString4 = ObjProto.toString, hasOwnProperty3 = ObjProto.hasOwnProperty;
@@ -1001,24 +995,24 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-lib.js
-  var require_webflow_lib = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-lib.js"(exports, module) {
-      var Webflow = {};
+  // packages/shared/render/plugins/BaseSiteModules/regular-lib.js
+  var require_regular_lib = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-lib.js"(exports, module) {
+      var regular = {};
       var modules = {};
       var primary = [];
-      var secondary = window.Webflow || [];
+      var secondary = window.regular || [];
       var $ = window.jQuery;
       var $win = $(window);
       var $doc = $(document);
       var isFunction3 = $.isFunction;
-      var _ = Webflow._ = require_underscore_custom();
-      var tram = Webflow.tram = require_tram_min() && $.tram;
+      var _ = regular._ = require_underscore_custom();
+      var tram = regular.tram = require_tram_min() && $.tram;
       var domready = false;
       var destroyed = false;
       tram.config.hideBackface = false;
       tram.config.keepInherited = true;
-      Webflow.define = function(name, factory, options) {
+      regular.define = function(name, factory, options) {
         if (modules[name]) {
           unbindModule(modules[name]);
         }
@@ -1026,11 +1020,11 @@
         bindModule(instance);
         return instance;
       };
-      Webflow.require = function(name) {
+      regular.require = function(name) {
         return modules[name];
       };
       function bindModule(module2) {
-        if (Webflow.env()) {
+        if (regular.env()) {
           isFunction3(module2.design) && $win.on("__wf_design", module2.design);
           isFunction3(module2.preview) && $win.on("__wf_preview", module2.preview);
         }
@@ -1062,14 +1056,14 @@
           return readyFn !== module2.ready;
         });
       }
-      Webflow.push = function(ready) {
+      regular.push = function(ready) {
         if (domready) {
           isFunction3(ready) && ready();
           return;
         }
         secondary.push(ready);
       };
-      Webflow.env = function(mode) {
+      regular.env = function(mode) {
         var designFlag = window.__wf_design;
         var inApp = typeof designFlag !== "undefined";
         if (!mode) {
@@ -1085,7 +1079,7 @@
           return inApp && window.__wf_slug;
         }
         if (mode === "editor") {
-          return window.WebflowEditor;
+          return window.regularEditor;
         }
         if (mode === "test") {
           return window.__wf_test;
@@ -1095,24 +1089,24 @@
         }
       };
       var userAgent = navigator.userAgent.toLowerCase();
-      var touch = Webflow.env.touch = "ontouchstart" in window || window.DocumentTouch && document instanceof window.DocumentTouch;
-      var chrome = Webflow.env.chrome = /chrome/.test(userAgent) && /Google/.test(navigator.vendor) && parseInt(userAgent.match(/chrome\/(\d+)\./)[1], 10);
-      var ios = Webflow.env.ios = /(ipod|iphone|ipad)/.test(userAgent);
-      Webflow.env.safari = /safari/.test(userAgent) && !chrome && !ios;
+      var touch = regular.env.touch = "ontouchstart" in window || window.DocumentTouch && document instanceof window.DocumentTouch;
+      var chrome = regular.env.chrome = /chrome/.test(userAgent) && /Google/.test(navigator.vendor) && parseInt(userAgent.match(/chrome\/(\d+)\./)[1], 10);
+      var ios = regular.env.ios = /(ipod|iphone|ipad)/.test(userAgent);
+      regular.env.safari = /safari/.test(userAgent) && !chrome && !ios;
       var touchTarget;
       touch && $doc.on("touchstart mousedown", function(evt) {
         touchTarget = evt.target;
       });
-      Webflow.validClick = touch ? function(clickTarget) {
+      regular.validClick = touch ? function(clickTarget) {
         return clickTarget === touchTarget || $.contains(clickTarget, touchTarget);
       } : function() {
         return true;
       };
-      var resizeEvents = "resize.webflow orientationchange.webflow load.webflow";
-      var scrollEvents = "scroll.webflow " + resizeEvents;
-      Webflow.resize = eventProxy($win, resizeEvents);
-      Webflow.scroll = eventProxy($win, scrollEvents);
-      Webflow.redraw = eventProxy();
+      var resizeEvents = "resize.regular orientationchange.regular load.regular";
+      var scrollEvents = "scroll.regular " + resizeEvents;
+      regular.resize = eventProxy($win, resizeEvents);
+      regular.scroll = eventProxy($win, scrollEvents);
+      regular.redraw = eventProxy();
       function eventProxy(target, types) {
         var handlers = [];
         var proxy = {};
@@ -1144,14 +1138,14 @@
         };
         return proxy;
       }
-      Webflow.location = function(url) {
+      regular.location = function(url) {
         window.location = url;
       };
-      if (Webflow.env()) {
-        Webflow.location = function() {
+      if (regular.env()) {
+        regular.location = function() {
         };
       }
-      Webflow.ready = function() {
+      regular.ready = function() {
         domready = true;
         if (destroyed) {
           restoreModules();
@@ -1159,7 +1153,7 @@
           _.each(primary, callReady);
         }
         _.each(secondary, callReady);
-        Webflow.resize.up();
+        regular.resize.up();
       };
       function callReady(readyFn) {
         isFunction3(readyFn) && readyFn();
@@ -1169,7 +1163,7 @@
         _.each(modules, bindModule);
       }
       var deferLoad;
-      Webflow.load = function(handler) {
+      regular.load = function(handler) {
         deferLoad.then(handler);
       };
       function bindLoad() {
@@ -1180,7 +1174,7 @@
         deferLoad = new $.Deferred();
         $win.on("load", deferLoad.resolve);
       }
-      Webflow.destroy = function(options) {
+      regular.destroy = function(options) {
         options = options || {};
         destroyed = true;
         $win.triggerHandler("__wf_destroy");
@@ -1188,31 +1182,31 @@
           domready = options.domready;
         }
         _.each(modules, unbindModule);
-        Webflow.resize.off();
-        Webflow.scroll.off();
-        Webflow.redraw.off();
+        regular.resize.off();
+        regular.scroll.off();
+        regular.redraw.off();
         primary = [];
         secondary = [];
         if (deferLoad.state() === "pending") {
           bindLoad();
         }
       };
-      $(Webflow.ready);
+      $(regular.ready);
       bindLoad();
-      module.exports = window.Webflow = Webflow;
+      module.exports = window.regular = regular;
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-brand.js
-  var require_webflow_brand = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-brand.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("brand", module.exports = function($) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-brand.js
+  var require_regular_brand = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-brand.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("brand", module.exports = function($) {
         var api = {};
         var doc = document;
         var $html = $("html");
         var $body = $("body");
-        var namespace = ".w-webflow-badge";
+        var namespace = ".w-regular-badge";
         var location = window.location;
         var isPhantom = /PhantomJS/i.test(navigator.userAgent);
         var fullScreenEvents = "fullscreenchange webkitfullscreenchange mozfullscreenchange msfullscreenchange";
@@ -1220,7 +1214,7 @@
         api.ready = function() {
           var shouldBrand = $html.attr("data-wf-status");
           var publishedDomain = $html.attr("data-wf-domain") || "";
-          if (/\.webflow\.io$/i.test(publishedDomain) && location.hostname !== publishedDomain) {
+          if (/\.regular\.io$/i.test(publishedDomain) && location.hostname !== publishedDomain) {
             shouldBrand = true;
           }
           if (shouldBrand && !isPhantom) {
@@ -1235,19 +1229,19 @@
           $(brandElement).attr("style", fullScreen ? "display: none !important;" : "");
         }
         function createBadge() {
-          var $brand = $('<a class="w-webflow-badge"></a>').attr("href", "https://webflow.com?utm_campaign=brandjs");
-          var $logoArt = $("<img>").attr("src", "https://d3e54v103j8qbb.cloudfront.net/img/webflow-badge-icon-d2.89e12c322e.svg").attr("alt", "").css({
+          var $brand = $('<a class="w-regular-badge"></a>').attr("href", "https://regular.com?utm_campaign=brandjs");
+          var $logoArt = $("<img>").attr("src", "https://d3e54v103j8qbb.cloudfront.net/img/regular-badge-icon-d2.89e12c322e.svg").attr("alt", "").css({
             marginRight: "4px",
             width: "26px"
           });
-          var $logoText = $("<img>").attr("src", "https://d3e54v103j8qbb.cloudfront.net/img/webflow-badge-text-d2.c82cec3b78.svg").attr("alt", "Made in Webflow");
+          var $logoText = $("<img>").attr("src", "https://d3e54v103j8qbb.cloudfront.net/img/regular-badge-text-d2.c82cec3b78.svg").attr("alt", "Made in regular");
           $brand.append($logoArt, $logoText);
           return $brand[0];
         }
         function ensureBrand() {
           var found = $body.children(namespace);
           var match2 = found.length && found.get(0) === brandElement;
-          var inEditor = Webflow.env("editor");
+          var inEditor = regular.env("editor");
           if (match2) {
             if (inEditor) {
               found.remove();
@@ -1266,11 +1260,11 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-focus-visible.js
-  var require_webflow_focus_visible = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-focus-visible.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("focus-visible", module.exports = function() {
+  // packages/shared/render/plugins/BaseSiteModules/regular-focus-visible.js
+  var require_regular_focus_visible = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-focus-visible.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("focus-visible", module.exports = function() {
         function applyFocusVisiblePolyfill(scope) {
           var hadKeyboardEvent = true;
           var hadFocusVisibleRecently = false;
@@ -1417,11 +1411,11 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-focus.js
-  var require_webflow_focus = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-focus.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("focus", module.exports = function() {
+  // packages/shared/render/plugins/BaseSiteModules/regular-focus.js
+  var require_regular_focus = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-focus.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("focus", module.exports = function() {
         var capturedEvents = [];
         var capturing = false;
         function captureEvent(e) {
@@ -1456,7 +1450,7 @@
           }
         }
         function ready() {
-          if (typeof document !== "undefined" && document.body.hasAttribute("data-wf-focus-within") && Webflow.env.safari) {
+          if (typeof document !== "undefined" && document.body.hasAttribute("data-wf-focus-within") && regular.env.safari) {
             document.addEventListener("mousedown", handler, true);
             document.addEventListener("mouseup", captureEvent, true);
             document.addEventListener("click", captureEvent, true);
@@ -1469,9 +1463,9 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-ix-events.js
-  var require_webflow_ix_events = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-ix-events.js"(exports, module) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-ix-events.js
+  var require_regular_ix_events = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-ix-events.js"(exports, module) {
       "use strict";
       var $ = window.jQuery;
       var api = {};
@@ -1526,11 +1520,11 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-ix2-events.js
-  var require_webflow_ix2_events = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-ix2-events.js"(exports, module) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-ix2-events.js
+  var require_regular_ix2_events = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-ix2-events.js"(exports, module) {
       "use strict";
-      var IXEvents = require_webflow_ix_events();
+      var IXEvents = require_regular_ix_events();
       function dispatchCustomEvent(element, eventName) {
         var event = document.createEvent("CustomEvent");
         event.initCustomEvent(eventName, true, true, null);
@@ -6993,7 +6987,7 @@
       };
       exports.getPluginDestination = getPluginDestination;
       var createPluginInstance = (element) => {
-        const instance = window.Webflow.require("lottie").createInstance(element);
+        const instance = window.regular.require("lottie").createInstance(element);
         instance.stop();
         instance.setSubframe(true);
         return instance;
@@ -7008,7 +7002,7 @@
       };
       exports.renderPlugin = renderPlugin;
       var clearPlugin = (element) => {
-        const instance = window.Webflow.require("lottie").createInstance(element);
+        const instance = window.regular.require("lottie").createInstance(element);
         instance.stop();
       };
       exports.clearPlugin = clearPlugin;
@@ -7024,7 +7018,7 @@
       });
       exports.renderPlugin = exports.getPluginOrigin = exports.getPluginDuration = exports.getPluginDestination = exports.getPluginConfig = exports.createPluginInstance = exports.clearPlugin = void 0;
       var queryContainerElement = (elementId) => document.querySelector(`[data-w-id="${elementId}"]`);
-      var getFrontendModule = () => window.Webflow.require("spline");
+      var getFrontendModule = () => window.regular.require("spline");
       var difference = (arr1, arr2) => arr1.filter((x) => !arr2.includes(x));
       var getPluginConfig = (actionItemConfig, key) => {
         return actionItemConfig.value[key];
@@ -12401,27 +12395,27 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-ix2.js
-  var require_webflow_ix2 = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-ix2.js"(exports, module) {
-      var Webflow = require_webflow_lib();
+  // packages/shared/render/plugins/BaseSiteModules/regular-ix2.js
+  var require_regular_ix2 = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-ix2.js"(exports, module) {
+      var regular = require_regular_lib();
       var ix2 = require_engine();
-      ix2.setEnv(Webflow.env);
-      Webflow.define("ix2", module.exports = function() {
+      ix2.setEnv(regular.env);
+      regular.define("ix2", module.exports = function() {
         return ix2;
       });
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-links.js
-  var require_webflow_links = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-links.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("links", module.exports = function($, _) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-links.js
+  var require_regular_links = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-links.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("links", module.exports = function($, _) {
         var api = {};
         var $win = $(window);
         var designer;
-        var inApp = Webflow.env();
+        var inApp = regular.env();
         var location = window.location;
         var tempLink = document.createElement("a");
         var linkCurrent = "w--current";
@@ -12431,16 +12425,16 @@
         var slug;
         api.ready = api.design = api.preview = init;
         function init() {
-          designer = inApp && Webflow.env("design");
-          slug = Webflow.env("slug") || location.pathname || "";
-          Webflow.scroll.off(scroll);
+          designer = inApp && regular.env("design");
+          slug = regular.env("slug") || location.pathname || "";
+          regular.scroll.off(scroll);
           anchors = [];
           var links = document.links;
           for (var i = 0; i < links.length; ++i) {
             select(links[i]);
           }
           if (anchors.length) {
-            Webflow.scroll.on(scroll);
+            regular.scroll.on(scroll);
             scroll();
           }
         }
@@ -12501,11 +12495,11 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-scroll.js
-  var require_webflow_scroll = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-scroll.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("scroll", module.exports = function($) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-scroll.js
+  var require_regular_scroll = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-scroll.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("scroll", module.exports = function($) {
         var NS_EVENTS = {
           WF_CLICK_EMPTY: "click.wf-empty-link",
           WF_CLICK_SCROLL: "click.wf-scroll"
@@ -12518,7 +12512,7 @@
         var animate = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function(fn) {
           window.setTimeout(fn, 15);
         };
-        var rootTag = Webflow.env("editor") ? ".w-editor-body" : "body";
+        var rootTag = regular.env("editor") ? ".w-editor-body" : "body";
         var headerSelector = "header, " + rootTag + " > .header, " + rootTag + " > .w-nav:not([data-no-scroll])";
         var emptyHrefSelector = 'a[href="#"]';
         var localHrefSelector = 'a[href*="#"]:not(.w-tab-link):not(' + emptyHrefSelector + ")";
@@ -12567,7 +12561,7 @@
           var target = evt.currentTarget;
           if (
             // Bail if in Designer
-            Webflow.env("design") || // Ignore links being used by jQuery mobile
+            regular.env("design") || // Ignore links being used by jQuery mobile
             window.$.mobile && /(?:^|\s)ui-link(?:$|\s)/.test(target.className)
           ) {
             return;
@@ -12596,7 +12590,7 @@
         }
         function updateHistory(hash) {
           if (loc.hash !== hash && history && history.pushState && // Navigation breaks Chrome when the protocol is `file:`.
-          !(Webflow.env.chrome && loc.protocol === "file:")) {
+          !(regular.env.chrome && loc.protocol === "file:")) {
             var oldHash = history.state && history.state.hash;
             if (oldHash !== hash) {
               history.pushState({
@@ -12675,11 +12669,11 @@
     }
   });
 
-  // packages/shared/render/plugins/BaseSiteModules/webflow-touch.js
-  var require_webflow_touch = __commonJS({
-    "packages/shared/render/plugins/BaseSiteModules/webflow-touch.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("touch", module.exports = function($) {
+  // packages/shared/render/plugins/BaseSiteModules/regular-touch.js
+  var require_regular_touch = __commonJS({
+    "packages/shared/render/plugins/BaseSiteModules/regular-touch.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("touch", module.exports = function($) {
         var api = {};
         var getSelection = window.getSelection;
         $.event.special.tap = {
@@ -12778,11 +12772,11 @@
     }
   });
 
-  // packages/shared/render/plugins/Form/webflow-forms.js
-  var require_webflow_forms = __commonJS({
-    "packages/shared/render/plugins/Form/webflow-forms.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      Webflow.define("forms", module.exports = function($, _) {
+  // packages/shared/render/plugins/Form/regular-forms.js
+  var require_regular_forms = __commonJS({
+    "packages/shared/render/plugins/Form/regular-forms.js"(exports, module) {
+      var regular = require_regular_lib();
+      regular.define("forms", module.exports = function($, _) {
         var api = {};
         var $doc = $(document);
         var $forms;
@@ -12793,7 +12787,7 @@
         var emailField = /e(-)?mail/i;
         var emailValue = /^\S+@\S+$/;
         var alert = window.alert;
-        var inApp = Webflow.env();
+        var inApp = regular.env();
         var listening;
         var formUrl;
         var signFileUrl;
@@ -12809,9 +12803,9 @@
         };
         function init() {
           siteId = $("html").attr("data-wf-site");
-          formUrl = "https://webflow.com/api/v1/form/" + siteId;
-          if (retro && formUrl.indexOf("https://webflow.com") >= 0) {
-            formUrl = formUrl.replace("https://webflow.com", "https://formdata.webflow.com");
+          formUrl = "https://regular.com/api/v1/form/" + siteId;
+          if (retro && formUrl.indexOf("https://regular.com") >= 0) {
+            formUrl = formUrl.replace("https://regular.com", "https://formdata.regular.com");
           }
           signFileUrl = `${formUrl}/signFile`;
           $forms = $(namespace + " form");
@@ -12861,9 +12855,9 @@
             return;
           }
           if (siteId) {
-            data.handler = true ? exportedSubmitWebflow : (() => {
+            data.handler = true ? exportedSubmitregular : (() => {
               const hostedSubmitHandler = null.default;
-              return hostedSubmitHandler(reset, loc, Webflow, collectEnterpriseTrackingCookies, preventDefault, findFields, alert, findFileUploads, disableBtn, siteId, afterSubmit, $, formUrl);
+              return hostedSubmitHandler(reset, loc, regular, collectEnterpriseTrackingCookies, preventDefault, findFields, alert, findFileUploads, disableBtn, siteId, afterSubmit, $, formUrl);
             })();
             return;
           }
@@ -12992,7 +12986,7 @@
           }
           return status;
         }
-        function exportedSubmitWebflow(data) {
+        function exportedSubmitregular(data) {
           preventDefault(data);
           afterSubmit(data);
         }
@@ -13055,7 +13049,7 @@
           var redirect = data.redirect;
           var success = data.success;
           if (success && redirect) {
-            Webflow.location(redirect);
+            regular.location(redirect);
             return;
           }
           data.done.toggle(success);
@@ -13236,11 +13230,11 @@
     }
   });
 
-  // packages/shared/render/plugins/Navbar/webflow-navbar.js
-  var require_webflow_navbar = __commonJS({
-    "packages/shared/render/plugins/Navbar/webflow-navbar.js"(exports, module) {
-      var Webflow = require_webflow_lib();
-      var IXEvents = require_webflow_ix2_events();
+  // packages/shared/render/plugins/Navbar/regular-navbar.js
+  var require_regular_navbar = __commonJS({
+    "packages/shared/render/plugins/Navbar/regular-navbar.js"(exports, module) {
+      var regular = require_regular_lib();
+      var IXEvents = require_regular_ix2_events();
       var KEY_CODES = {
         ARROW_LEFT: 37,
         ARROW_UP: 38,
@@ -13252,7 +13246,7 @@
         HOME: 36,
         END: 35
       };
-      Webflow.define("navbar", module.exports = function($, _) {
+      regular.define("navbar", module.exports = function($, _) {
         var api = {};
         var tram = $.tram;
         var $win = $(window);
@@ -13262,7 +13256,7 @@
         var $navbars;
         var designer;
         var inEditor;
-        var inApp = Webflow.env();
+        var inApp = regular.env();
         var overlay = '<div class="w-nav-overlay" data-wf-ignore />';
         var namespace = ".w-nav";
         var navbarOpenedButton = "w--open";
@@ -13281,8 +13275,8 @@
           }
         };
         function init() {
-          designer = inApp && Webflow.env("design");
-          inEditor = Webflow.env("editor");
+          designer = inApp && regular.env("design");
+          inEditor = regular.env("editor");
           $body = $(document.body);
           $navbars = $doc.find(namespace);
           if (!$navbars.length) {
@@ -13293,10 +13287,10 @@
           addListeners();
         }
         function removeListeners() {
-          Webflow.resize.off(resizeAll);
+          regular.resize.off(resizeAll);
         }
         function addListeners() {
-          Webflow.resize.on(resizeAll);
+          regular.resize.on(resizeAll);
         }
         function resizeAll() {
           $navbars.each(resize);
@@ -13502,7 +13496,7 @@
           return function(evt) {
             var link = $(this);
             var href = link.attr("href");
-            if (!Webflow.validClick(evt.currentTarget)) {
+            if (!regular.validClick(evt.currentTarget)) {
               evt.preventDefault();
               return;
             }
@@ -13590,7 +13584,7 @@
           var navbarEl = data.el[0];
           resize(0, navbarEl);
           ix.intro(0, navbarEl);
-          Webflow.redraw.up();
+          regular.redraw.up();
           if (!designer) {
             $doc.on("click" + namespace, data.outside);
           }
@@ -25763,7 +25757,7 @@
 
   // packages/utilities/apolloClient/customFetchers/fetchWithCsrf.ts
   function fetchWithCsrf(uri, options) {
-    if (window.Webflow.env("design") || window.Webflow.env("preview")) {
+    if (window.regular.env("design") || window.regular.env("preview")) {
       return fetch(uri, options);
     }
     const localCsrvCookie = getLocalCsrfCookie();
@@ -26329,7 +26323,7 @@
     "packages/utilities/apolloClient/helpers.ts"() {
       "use strict";
       init_bundle_esm8();
-      ERROR_METRIC_NAME = "webflow.renderer.apollo.request.error";
+      ERROR_METRIC_NAME = "regular.renderer.apollo.request.error";
       waitForInFlightQueries = (apolloClient) => {
         if (!apolloClient || !apolloClient.queryManager) {
           return Promise.resolve(null);
@@ -26492,7 +26486,7 @@
     "packages/utilities/fp/utils/Const.ts"() {
       "use strict";
       ({ create } = Object);
-      VALUE = "@webflow/Const/value";
+      VALUE = "@regular/Const/value";
       prototype = {
         // map(f) { // eslint-disable-line no-unused-vars
         map() {
@@ -26514,7 +26508,7 @@
     "packages/utilities/fp/utils/Identity.ts"() {
       "use strict";
       ({ create: create2 } = Object);
-      VALUE2 = "@webflow/Identity/value";
+      VALUE2 = "@regular/Identity/value";
       prototype2 = {
         // @ts-expect-error - TS7023 - 'map' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
         map(f) {
@@ -26539,7 +26533,7 @@
       returnThis = function() {
         return this;
       };
-      VALUE3 = "@webflow/Option";
+      VALUE3 = "@regular/Option";
       None = create3({
         map: returnThis,
         chain: returnThis,
@@ -26585,7 +26579,7 @@
           return other.foldOption(
             this,
             (otherValue) => (
-              // @ts-expect-error - TS7053 - Element implicitly has an 'any' type because expression of type '"@webflow/Option"' can't be used to index type '{ readonly map: (f: any) => any; readonly chain: (f: any) => any; readonly alt: () => any; readonly ap: (m: any) => any; readonly concat: (other: any) => any; readonly foldOption: (fallback: any, mapValue: any) => any; }'.
+              // @ts-expect-error - TS7053 - Element implicitly has an 'any' type because expression of type '"@regular/Option"' can't be used to index type '{ readonly map: (f: any) => any; readonly chain: (f: any) => any; readonly alt: () => any; readonly ap: (m: any) => any; readonly concat: (other: any) => any; readonly foldOption: (fallback: any, mapValue: any) => any; }'.
               Some(this[VALUE3].concat(otherValue))
             )
           );
@@ -26615,8 +26609,8 @@
       returnThis2 = function() {
         return this;
       };
-      VALUE4 = "@webflow/Result/value";
-      ERROR = "@webflow/Result/error";
+      VALUE4 = "@regular/Result/value";
+      ERROR = "@regular/Result/error";
       Err = (error) => {
         const object = create4(ErrPrototype);
         object[ERROR] = error;
@@ -28146,7 +28140,7 @@
         })();
         if (!redirectUrl)
           return;
-        return includeDelay ? setTimeout(() => window.Webflow.location(redirectUrl), 3e3) : window.Webflow.location(redirectUrl);
+        return includeDelay ? setTimeout(() => window.regular.location(redirectUrl), 3e3) : window.regular.location(redirectUrl);
       }
       var wrapperSelectors = [".w-file-upload-error"];
       var setErrorMsg = (wrapper, fieldElements, name) => {
@@ -30757,7 +30751,7 @@
         return Array.prototype.slice.call(logoutButtons).filter((logoutButton) => logoutButton instanceof HTMLButtonElement);
       }
       function handleGoToLoginClick() {
-        if (window.Webflow.env("preview")) {
+        if (window.regular.env("preview")) {
           return;
         }
         window.location = "/log-in";
@@ -30765,7 +30759,7 @@
       function handleLogOutButtonClick(event) {
         event.preventDefault();
         asyncLogOutUser().then(() => {
-          window.Webflow.location("/");
+          window.regular.location("/");
         });
       }
       function handleLogInLogOutButton() {
@@ -30774,7 +30768,7 @@
             logoutButton.innerHTML = logoutButton.getAttribute(_constants.USYS_DATA_ATTRS.logout) || "Log out";
             logoutButton.removeEventListener("click", handleGoToLoginClick);
             logoutButton.addEventListener("click", handleLogOutButtonClick);
-          } else if (!window.Webflow.env("design")) {
+          } else if (!window.regular.env("design")) {
             logoutButton.innerHTML = logoutButton.getAttribute(_constants.USYS_DATA_ATTRS.login) || "Log in";
             logoutButton.removeEventListener("click", handleLogOutButtonClick);
             logoutButton.addEventListener("click", handleGoToLoginClick);
@@ -32285,7 +32279,7 @@
          * NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE
          *
          * This const is duplicated to @packages/systems/core/constants/SharedConfig.js
-         * to avoid bundling this entire SharedConfig file in the webflow.js published
+         * to avoid bundling this entire SharedConfig file in the regular.js published
          * site bundle. Once we have support for bundling for the Dashboard (this
          * config is injected in to window.SharedConfig for angular), we should
          * be able to delete the const in SharedConfig and use the commerce/consts
@@ -32349,7 +32343,7 @@
           name: "Hong Kong Dollar"
         },
         // HUF is currently disabled, due to issues with PayPal's 0-decimal implementation
-        // See: https://github.com/webflow/webflow/issues/32865
+        // See: https://github.com/regular/regular/issues/32865
         // {code: 'HUF', digits: 0, minCharge: 1, name: 'Hungarian Forint'},
         {
           code: "INR",
@@ -32475,7 +32469,7 @@
          * NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE NOTE
          *
          * This const is duplicated to @packages/systems/core/constants/SharedConfig.js
-         * to avoid bundling this entire SharedConfig file in the webflow.js published
+         * to avoid bundling this entire SharedConfig file in the regular.js published
          * site bundle. Once we have support for bundling for the Dashboard (this
          * config is injected in to window.SharedConfig for angular), we should
          * be able to delete the const in SharedConfig and use the commerce/consts
@@ -33484,12 +33478,12 @@
       exports.CSV_INTEGRATION_CURRENCY_TEMPLATE = CSV_INTEGRATION_CURRENCY_TEMPLATE;
       var DOWNLOAD_FILES_FAKE_DATA = [{
         id: "5d8fcb6d94dd1853060fb3b3",
-        name: "The modern web design process - Webflow Ebook.pdf",
-        url: "https://assets-global.website-files.com/5cf6b7202bf8199f50d43e6c/5e9dd8a680b972888929747b_The%20modern%20web%20design%20process%20-%20Webflow%20Ebook.pdf"
+        name: "The modern web design process - regular Ebook.pdf",
+        url: "https://assets-global.website-files.com/5cf6b7202bf8199f50d43e6c/5e9dd8a680b972888929747b_The%20modern%20web%20design%20process%20-%20regular%20Ebook.pdf"
       }, {
         id: "5d8fcb6d94dd1853060fb3b4",
-        name: "The freelance web designers guide - Webflow Ebook.pdf",
-        url: "https://assets-global.website-files.com/5cf6b7202bf8199f50d43e6c/5e9dd8e6abe52b33243a22cf_The%20freelance%20web%20designer%E2%80%99s%20guide%20-%20Webflow%20Ebook.pdf"
+        name: "The freelance web designers guide - regular Ebook.pdf",
+        url: "https://assets-global.website-files.com/5cf6b7202bf8199f50d43e6c/5e9dd8e6abe52b33243a22cf_The%20freelance%20web%20designer%E2%80%99s%20guide%20-%20regular%20Ebook.pdf"
       }];
       exports.DOWNLOAD_FILES_FAKE_DATA = DOWNLOAD_FILES_FAKE_DATA;
       var DOWNLOAD_FILES_KEY_PATH = "download-files";
@@ -40142,8 +40136,8 @@
       import_isBoolean = __toESM(require_isBoolean());
       import_isFunction = __toESM(require_isFunction());
       import_isObject = __toESM(require_isObject());
-      True = { "@webflow/Boolean": true };
-      False = { "@webflow/Boolean": false };
+      True = { "@regular/Boolean": true };
+      False = { "@regular/Boolean": false };
       is = (valueA, valueB) => {
         if (valueA === valueB || valueA !== valueA && valueB !== valueB) {
           return true;
@@ -41620,7 +41614,7 @@
             const transformedValue = (0, _Transformers.transformers)(rawValue, filter2, {
               timezone,
               collectionSlugMap: {},
-              currencySettings: window.__WEBFLOW_CURRENCY_SETTINGS
+              currencySettings: window.__regular_CURRENCY_SETTINGS
             });
             const propertyMutator = getPropertyMutator(bindingProperty);
             if (propertyMutator) {
@@ -41753,7 +41747,7 @@
         return Array.prototype.slice.call(accountForms).filter((accountForm) => accountForm instanceof HTMLFormElement);
       }
       function handleUserSubscriptionLists(domParser) {
-        if (window.Webflow.env("design") || window.Webflow.env("preview")) {
+        if (window.regular.env("design") || window.regular.env("preview")) {
           return;
         }
         const subscriptionLists = getUserSubscriptionLists();
@@ -41831,7 +41825,7 @@
       }
       function handleUserAccount() {
         const userAccount = document.querySelector(`[${_constants.USYS_DATA_ATTRS.userAccount}]`);
-        if (!userAccount || window.Webflow.env("design") || window.Webflow.env("preview")) {
+        if (!userAccount || window.regular.env("design") || window.regular.env("preview")) {
           return;
         }
         const successMessage = userAccount.querySelector("." + _constants.USYS_DOM_CLASS_NAMES.formSuccess);
@@ -42321,54 +42315,54 @@
     }
   });
 
-  // packages/shared/render/plugins/Users/webflow-usys-form.js
-  var require_webflow_usys_form = __commonJS({
-    "packages/shared/render/plugins/Users/webflow-usys-form.js"(exports) {
+  // packages/shared/render/plugins/Users/regular-usys-form.js
+  var require_regular_usys_form = __commonJS({
+    "packages/shared/render/plugins/Users/regular-usys-form.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
       exports.default = createUsysFormBundle;
       var _siteBundles = require_siteBundles();
-      var Webflow = require_webflow_lib();
+      var regular = require_regular_lib();
       function createUsysFormBundle() {
-        return (0, _siteBundles.usysFormBundle)(Webflow.env);
+        return (0, _siteBundles.usysFormBundle)(regular.env);
       }
-      Webflow.define("usys_form", createUsysFormBundle);
+      regular.define("usys_form", createUsysFormBundle);
     }
   });
 
-  // packages/shared/render/plugins/Users/webflow-usys.js
-  var require_webflow_usys = __commonJS({
-    "packages/shared/render/plugins/Users/webflow-usys.js"(exports) {
+  // packages/shared/render/plugins/Users/regular-usys.js
+  var require_regular_usys = __commonJS({
+    "packages/shared/render/plugins/Users/regular-usys.js"(exports) {
       "use strict";
       var _interopRequireDefault = require_interopRequireDefault().default;
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
       exports.default = createUsysSiteBundle;
-      var _webflowLib = _interopRequireDefault(require_webflow_lib());
+      var _regularLib = _interopRequireDefault(require_regular_lib());
       var _siteBundles = require_siteBundles();
       function createUsysSiteBundle() {
         return (0, _siteBundles.usysSiteBundle)();
       }
-      _webflowLib.default.define("usys", createUsysSiteBundle);
+      _regularLib.default.define("usys", createUsysSiteBundle);
     }
   });
 
   // <stdin>
-  require_webflow_brand();
-  require_webflow_focus_visible();
-  require_webflow_focus();
-  require_webflow_ix2_events();
-  require_webflow_ix2();
-  require_webflow_links();
-  require_webflow_scroll();
-  require_webflow_touch();
-  require_webflow_forms();
-  require_webflow_navbar();
-  require_webflow_usys_form();
-  require_webflow_usys();
+  require_regular_brand();
+  require_regular_focus_visible();
+  require_regular_focus();
+  require_regular_ix2_events();
+  require_regular_ix2();
+  require_regular_links();
+  require_regular_scroll();
+  require_regular_touch();
+  require_regular_forms();
+  require_regular_navbar();
+  require_regular_usys_form();
+  require_regular_usys();
 })();
 /*!
  * tram.js v0.8.2-global
@@ -42377,7 +42371,7 @@
  * MIT License
  */
 /*!
- * Webflow._ (aka) Underscore.js 1.6.0 (custom build)
+ * regular._ (aka) Underscore.js 1.6.0 (custom build)
  * _.each
  * _.map
  * _.find
@@ -42386,12 +42380,12 @@
  * _.contains
  * _.delay
  * _.defer
- * _.throttle (webflow)
+ * _.throttle (regular)
  * _.debounce
  * _.keys
  * _.has
  * _.now
- * _.template (webflow: upgraded to 1.13.6)
+ * _.template (regular: upgraded to 1.13.6)
  *
  * http://underscorejs.org
  * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -42514,8 +42508,8 @@ accounting/accounting.js:
 */
 /**
  * ----------------------------------------------------------------------
- * Webflow: Interactions 2.0: Init
+ * regular: Interactions 2.0: Init
  */
-Webflow.require('ix2').init(
+regular.require('ix2').init(
 {"events":{"e":{"id":"e","name":"","animationType":"custom","eventTypeId":"PAGE_START","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-2"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1651185667133},"e-3":{"id":"e-3","name":"","animationType":"custom","eventTypeId":"PAGE_START","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-2","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-4"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1651187162438},"e-5":{"id":"e-5","name":"","animationType":"custom","eventTypeId":"PAGE_START","action":{"id":"","actionTypeId":"GENERAL_START_ACTION","config":{"delay":0,"easing":"","duration":0,"actionListId":"a-3","affectedElements":{},"playInReverse":false,"autoStopEventId":"e-6"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b","appliesTo":"PAGE","styleBlockIds":[]}],"config":{"loop":true,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":null,"direction":null,"effectIn":null},"createdOn":1651187209634},"e-11":{"id":"e-11","name":"","animationType":"preset","eventTypeId":"MOUSE_OUT","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-10"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea2","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea2","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353594153},"e-12":{"id":"e-12","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-13"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea2","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea2","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353681214},"e-14":{"id":"e-14","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-15"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea1","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea1","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353697267},"e-16":{"id":"e-16","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-17"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea4","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea4","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353707182},"e-18":{"id":"e-18","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-19"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea3","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea3","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353744890},"e-20":{"id":"e-20","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-21"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9e","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9e","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353750963},"e-22":{"id":"e-22","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-23"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9f","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9f","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353757562},"e-24":{"id":"e-24","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-25"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9d","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1e9d","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353766219},"e-26":{"id":"e-26","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-27"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea0","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|76ba38e4-2715-c796-e82b-8239d41d1ea0","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353771563},"e-28":{"id":"e-28","name":"","animationType":"preset","eventTypeId":"MOUSE_CLICK","action":{"id":"","actionTypeId":"BOUNCE_EFFECT","instant":false,"config":{"actionListId":"bounce","autoStopEventId":"e-29"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5f|9b2922ad-09b1-aebb-0430-7dee623c62c8","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5f|9b2922ad-09b1-aebb-0430-7dee623c62c8","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651353786865},"e-30":{"id":"e-30","name":"","animationType":"preset","eventTypeId":"MOUSE_OVER","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-31"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b|d537e94b-4429-34a6-4309-1ffccbbd6cc1","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b|d537e94b-4429-34a6-4309-1ffccbbd6cc1","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651354197396},"e-32":{"id":"e-32","name":"","animationType":"preset","eventTypeId":"MOUSE_OVER","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-33"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b|dd62aaaf-69fc-01a8-622c-55c4602f5bab","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b|dd62aaaf-69fc-01a8-622c-55c4602f5bab","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651354527893},"e-34":{"id":"e-34","name":"","animationType":"preset","eventTypeId":"MOUSE_OVER","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-35"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b|ee0bd697-24c0-2f42-ef2e-72881d990bc7","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b|ee0bd697-24c0-2f42-ef2e-72881d990bc7","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651354535745},"e-36":{"id":"e-36","name":"","animationType":"preset","eventTypeId":"MOUSE_OVER","action":{"id":"","actionTypeId":"JIGGLE_EFFECT","instant":false,"config":{"actionListId":"jiggle","autoStopEventId":"e-37"}},"mediaQueries":["main","medium","small","tiny"],"target":{"id":"64eff997d6539e7d1c7e1f5b|035396fb-b177-37d5-7b34-0639252542ac","appliesTo":"ELEMENT","styleBlockIds":[]},"targets":[{"id":"64eff997d6539e7d1c7e1f5b|035396fb-b177-37d5-7b34-0639252542ac","appliesTo":"ELEMENT","styleBlockIds":[]}],"config":{"loop":false,"playInReverse":false,"scrollOffsetValue":null,"scrollOffsetUnit":null,"delay":0,"direction":null,"effectIn":null},"createdOn":1651354545973}},"actionLists":{"a":{"id":"a","title":"EndlessLoop","actionItemGroups":[{"actionItems":[{"id":"a-n","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"","duration":0,"target":{"id":"64eff997d6539e7d1c7e1f5b|d8ba6d08-41f7-6803-c716-eaca6f507a3f"},"xValue":-500,"xUnit":"px","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"id":"a-n-2","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"","duration":12000,"target":{"id":"64eff997d6539e7d1c7e1f5b|d8ba6d08-41f7-6803-c716-eaca6f507a3f"},"xValue":-500,"xUnit":"px","yUnit":"PX","zUnit":"PX"}}]}],"useFirstGroupAsInitialState":false,"createdOn":1651185683299},"a-2":{"id":"a-2","title":"New Timed Animation","actionItemGroups":[],"useFirstGroupAsInitialState":false,"createdOn":1651187180849},"a-3":{"id":"a-3","title":"endlessloop","actionItemGroups":[{"actionItems":[{"id":"a-3-n","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"","duration":0,"target":{"id":"64eff997d6539e7d1c7e1f5b|a8a07cff-91f4-3cfa-7256-435e6c30c79f"},"xValue":0,"xUnit":"px","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"id":"a-3-n-2","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":[0.25,0.25,0.75,0.75],"duration":12000,"target":{"id":"64eff997d6539e7d1c7e1f5b|a8a07cff-91f4-3cfa-7256-435e6c30c79f"},"xValue":-45,"xUnit":"vw","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"id":"a-3-n-3","actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"","duration":0,"target":{"id":"64eff997d6539e7d1c7e1f5b|a8a07cff-91f4-3cfa-7256-435e6c30c79f"},"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]}],"useFirstGroupAsInitialState":false,"createdOn":1651187217182},"jiggle":{"id":"jiggle","actionItemGroups":[{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":-5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":-5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":-5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":-5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":-5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":5,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_ROTATE","config":{"delay":0,"easing":"ease","duration":100,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"zValue":0,"xUnit":"DEG","yUnit":"DEG","zUnit":"DEG"}}]}]},"bounce":{"id":"bounce","actionItemGroups":[{"actionItems":[{"actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outQuart","duration":250,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"yValue":-100,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]},{"actionItems":[{"actionTypeId":"TRANSFORM_MOVE","config":{"delay":0,"easing":"outBounce","duration":1000,"target":{"id":"N/A","appliesTo":"TRIGGER_ELEMENT","useEventTarget":true},"yValue":0,"xUnit":"PX","yUnit":"PX","zUnit":"PX"}}]}]}},"site":{"mediaQueries":[{"key":"main","min":992,"max":10000},{"key":"medium","min":768,"max":991},{"key":"small","min":480,"max":767},{"key":"tiny","min":0,"max":479}]}}
 );
